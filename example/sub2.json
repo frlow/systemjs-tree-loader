@@ -1,4 +1,8 @@
 {
-  "imports": {},
-  "children": {}
+  "imports": {
+    "duplicate": "./duplicate.js"
+  },
+  "children": {
+    "duplicate": "./duplicate.json"
+  }
 }

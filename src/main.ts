@@ -8,7 +8,21 @@ type AssetsFile = {
   imports: Dictionary<string>
 }
 
-const parseImports = (assetsFile: AssetsFile, name?: string) => {
+const validateAssetsFile = (assetsFile: AssetsFile, name?: string) => {
+  const duplicates = Object.keys(assetsFile.imports)
+    .concat(Object.keys(assetsFile.children))
+    .filter((e, i, a) => a.indexOf(e) !== i)
+  if (duplicates.length > 0) {
+    console.warn(`Duplicate key "${duplicates[0]}" in "${name}"`)
+    return false
+  }
+  return true
+}
+
+const parseImports = (
+  assetsFile: AssetsFile,
+  name?: string
+): Dictionary<string> => {
   let imports = Object.entries(assetsFile.imports).reduce(
     (acc, [key, val]) => ({
       ...acc,
@@ -38,6 +52,7 @@ const getImports = async (
       imports: {},
       children: {},
     }))) as AssetsFile
+  if (!validateAssetsFile(result, name)) return {}
   const imports = parseImports(result, name)
   const results = await Promise.all(
     Object.keys(result.children).map(
