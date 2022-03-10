@@ -1,0 +1,21 @@
+{
+  "name": "systemjs-tree-loader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node build.js && copy-and-watch example/* dist/ && serve dist",
+    "build": "rimraf dist && node build.js"
+  },
+  "devDependencies": {
+    "serve": "^13.0.2",
+    "copy-and-watch": "^0.1.6",
+    "concurrently": "^7.0.0",
+    "typescript": "^4.6.2",
+    "import-map-overrides": "^2.4.2",
+    "systemjs": "^6.12.1",
+    "esbuild": "^0.14.25",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.2"
+  }
+}

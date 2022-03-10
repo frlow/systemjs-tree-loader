@@ -1,0 +1,6 @@
+{
+  "imports": {},
+  "children": {
+    "sub2": "./sub2.json"
+  }
+}

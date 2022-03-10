@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "demo": "./demoA.js"
+  },
+  "children": {
+    "child": "./child.json",
+    "broken": "./broken.json"
+  }
+}
