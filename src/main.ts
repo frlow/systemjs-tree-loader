@@ -9,6 +9,14 @@ type AssetsFile = {
 }
 
 const validateAssetsFile = (assetsFile: AssetsFile, name?: string) => {
+  if (!assetsFile.children) {
+    console.warn(`Children is not set in '${name}'`)
+    return false
+  }
+  if (!assetsFile.imports) {
+    console.warn(`Imports is not set in '${name}'`)
+    return false
+  }
   const duplicates = Object.keys(assetsFile.imports)
     .concat(Object.keys(assetsFile.children))
     .filter((e, i, a) => a.indexOf(e) !== i)
