@@ -22,30 +22,27 @@ const validateAssetsFile = (assetsFile: AssetsFile, name?: string) => {
 const parseImports = (
   assetsFile: AssetsFile,
   name?: string
-): Dictionary<string> => {
-  let imports = Object.entries(assetsFile.imports).reduce(
-    (acc, [key, val]) => ({
-      ...acc,
-      [`${name ? `${name}/` : ''}${key}`]: val,
-    }),
-    {}
-  )
-  return Object.entries(assetsFile.children).reduce(
-    (acc, [key, val]) => ({
-      ...acc,
-      [`@asset/${name ? `${name}/` : ''}${key}`]: val,
-    }),
-    imports
-  )
-}
+): Dictionary<string> =>
+  Object.entries(assetsFile.imports)
+    .concat(Object.entries(assetsFile.children))
+    .reduce(
+      (acc, [key, val]) => ({
+        ...acc,
+        [`${name ? `${name}/` : ''}${key}`]: val,
+      }),
+      {}
+    )
 
 const getImports = async (
   path: string,
   name?: string
 ): Promise<Dictionary<string>> => {
-  const pathOverride = localStorage.getItem(
-    `import-map-override:@asset/${name || ''}`
-  )
+  const disabled = JSON.parse(
+    localStorage.getItem('import-map-overrides-disabled') || '[]'
+  ).includes(name)
+  const pathOverride = disabled
+    ? undefined
+    : localStorage.getItem(`import-map-override:${name || ''}`)
   const result = (await fetch(pathOverride || path)
     .then((r) => r.json())
     .catch(() => ({
